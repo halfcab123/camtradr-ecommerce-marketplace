@@ -1,0 +1,330 @@
+<!--Listing Panels-->
+<style>
+    /*
+	Ratings Stars
+	(with as little code as possible)
+*/
+    .rating {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        text-align: center;
+    }
+    .rating > span {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+    }
+    .rating > span:hover,
+    .rating > span:hover ~ span {
+        color: transparent;
+    }
+    .rating > span:hover:before,
+    .rating > span:hover ~ span:before {
+        content: "\2605";
+        position: absolute;
+        left: 0;
+        color: gold;
+    }
+</style>
+
+
+<div id="profile">
+
+    {{#if error}}
+        <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 alert alert-danger">
+            <p>{{error}}</p>
+        </div>
+    {{/if}}
+    {{#if msgCount}}
+            <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 alert alert-info">
+                <p>{{error}}</p>
+            </div>
+    {{/if}}
+
+{{#if confirmed}}
+    <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <!-- Button trigger modal -->
+            <a style="height: 1.5em; width: 1.5em; position: relative; left: -2.3em; top: 4.3em" type="button" class="btn-floating btn-small blue" data-toggle="modal" data-target="#modalwindow_profpic"><i style="position: relative; right: -0.15em; top: -0.74em; height: 1.5em; width: 1.5em" class="fa fa-edit" aria-hidden="true"></i></a>
+
+
+            <!-- UploadImageForm in modal -->
+            <div class="modal fade" id="modalwindow_profpic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <!--Content-->
+                    <div class="modal-content">
+                        <!--Header-->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title w-100" id="myModalLabel">Upload Profile Image</h4>
+                        </div>
+                        <!--Body-->
+                        <div class="modal-body">
+                            <form enctype="multipart/form-data" action="/uploadProfPic?_csrf={{csrfToken}}" method="POST">
+                                <input class="btn btn-indigo" type="file" name="userPhoto"/>
+                                <input class="btn btn-primary" type="submit" value="Upload Image" name="submit">
+                                <input type='text' id='random' name='random' readonly="true"><br>
+
+                                <!-- Need progress bar -->
+                            </form>
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    <!--/.uploadImage_form-->
+                </div>
+            </div>
+            <!-- Modal -->
+
+
+            <img src={{#if profpic}}"{{profpic}}"{{else}}"/img/default_profile_avatar.png"{{/if}} style="border-radius: 100%; float: left; height: 6.78em; width: 6.78em !important"/>
+            <div style="float: right" id="badges">
+                <h4 style=""><span class="badge badge-warning">{{username}}</span></h4>
+                <h4 style="" class="card-text"><span class="badge badge-warning">Rep: {{#if reputation}}{{reputation}} | ({{user.sales}}){{else}}New Seller{{/if}}</span></h4>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <h2>My Listings</h2>
+            <hr />
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each listings}}
+                    {{#unless status.shipped.received}}
+                        <tr{{#if status.shipped.shipped}} style="background-color: orange"{{else}} style="background-color: dodgerblue"{{/if}}>
+                                <td>{{title}}</td>
+                                <td>${{price}}.00</td>
+                                <td>{{{formatDate listing_date}}}</td>
+                                <td>{{#if status.expired}}Expired{{else}}{{#if status.sold}}<strong>SOLD</strong>{{else}}Active{{/if}}{{/if}}</td>
+                                <td>{{#if status.shipped.shipped}}Shipped | <a style="margin: 0" onclick="setReceiver('{{status.buyer}}')">Message Buyer</a>
+                                    {{else}}
+                                        {{#if status.sold}}
+                                            {{#unless status.shipped.shipped}}
+                                                <a style="margin: 0" onclick="provideTracking('{{status.buyer}}','{{_id}}')">Provide Tracking</a>
+                                            {{/unless}}
+                                            {{#if status.shipped.tracking}}
+                                                <a style="margin: 0" onclick="sendMessage('{{status.buyer}}')">Message Buyer</a>
+                                            {{/if}}
+                                        {{else}}
+                                            <a style="margin: 0" onclick='location.href="/profile/deletelisting/{{_id}}"'>delete</a> | <a style="margin: 0" onclick='editListing("{{_id}}")'>edit</a>
+                                        {{/if}}
+                                    {{/if}}
+                            </td>
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        </tr>
+                    {{/unless}}
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <h2>My Orders</h2>
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each orders}}
+                        <tr{{#if status.shipped.received}} style="background-color: black; color: white"{{/if}}>
+                            <td>{{title}}</td>
+                            <td>${{price}}.00</td>
+                            <td>{{{formatDate listing_date}}}</td>
+                            <td>{{#if status.shipped.tracking}}{{status.shipped.tracking}}{{else}}Pending{{/if}}</td>
+                            <td>{{#if status.shipped.received}}FULFILLED{{else}}{{#if status.shipped.shipped}}<a style="margin-top: 0; margin-bottom:0" onclick="receive('{{username}}','{{_id}}')">Receive</a>{{else}}<a style="margin: 0" onclick="setReceiver('{{username}}')">Message Seller</a>{{/if}}{{/if}}</td>
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            <hr />
+        </div>
+    </div>
+
+
+        <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <h2>My Sales</h2>
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each sales}}
+                    <tr {{#if status.shipped.received}}style="background-color: black; color: white"{{/if}}{{#unless status.shipped.received}}style="background-color: orange"{{/unless}}>
+                        <td>{{title}}</td>
+                        <td>${{price}}.00</td>
+                        <td>{{{formatDate listing_date}}}</td>
+                        <td>{{#if status.shipped.shipped}}{{status.shipped.tracking}}{{else}}Pending{{/if}}</td>
+                    <td>{{#if status.shipped.received}}
+                            FULFILLED
+                        {{else}}
+                            {{#if status.shipped.tracking}}
+                            <a style="margin: 0" onclick="sendMessage('{{status.buyer}}')">Message Buyer</a>
+                            {{else}}
+                            <a style="margin: 0" onclick="provideTracking('{{status.buyer}}','{{_id}}')">Provide Tracking</a>
+                            {{/if}}
+                        {{/if}}
+                    </td>
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            <hr />
+            <hr />
+        </div>
+    </div>
+
+    <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <h2>My Reviews</h2>
+                {{#each reviews}}
+                    <!--Card-->
+                    <div class="card">
+
+                        <!--Card content-->
+                        <div class="card-block">
+                            <!--Title-->
+                            <h4 class="card-title"><strong>{{user}}</strong> - {{stars}}/5<i class="fa fa-star-o" aria-hidden="true"></i> - {{formatDate date}}</h4>
+                            <!--Text-->
+                            <p><i class="fa fa-quote-left"></i> {{review}}</p>
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+                {{/each}}
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<!-- Message Seller -->
+
+<!--Modal: Contact form-->
+<div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="title"><i class="fa fa-pencil"></i> Contact form</h4>
+                <!--Body-->
+                <form action="/message" method="POST" class="modal-body mb-0">
+                    <div class="md-form form-sm">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" name="username" id="form19" value="" class="form-control" readonly="true" required>
+                    </div>
+                    <div class="md-form form-sm">
+                        <i class="fa fa-tag prefix"></i>
+                        <input type="text" name="subject" id="form21" placeholder="subject" class="form-control" required>
+                    </div>
+                    <div id="trackingfield" style="display: none" class="md-form form-sm">
+                        <input type="text" id="tracking" placeholder="tracking" name="tracking" value="">
+                    </div>
+                    <div id="stardiv" style="display: none" class="rating">
+                        <a id="starcount"> srats 5 </a><span onclick="star(5)">☆</span><span onclick="star(4)">☆</span><span onclick="star(3)">☆</span><span onclick="star(2)">☆</span><span onclick="star(1)">☆</span>
+                    </div>
+                    <div class="md-form form-sm">
+                        <i class="fa fa-pencil prefix"></i>
+                        <textarea type="text" name="message" id="form8" placeholder="message" class="md-textarea mb-0" required></textarea>
+                    </div>
+                    <div style="display: none" class="md-form form-sm">
+                        <input type="text" name="stars" id="stars" value="5">
+                    </div>
+                    <div id="trackingfield" style="display: none" class="md-form form-sm">
+                        <input type="text" name="meta" id="meta" value="novalue">
+                    </div>
+                    <div id="trackingfield" style="display: none" class="md-form form-sm">
+                        <input type="text" id="listing" name="listing" value="novalue">
+                    </div>
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <div class="text-center mt-1-half">
+                        <button type="submit" class="btn btn-info mb-2">Send <i class="fa fa-send ml-1"></i></button>
+                    </div>
+                </form>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+</div>
+<!--Modal: Contact form-->
+
+<script>
+    function setReceiver(user){
+        $('#form19').attr('value', user);
+    }
+
+    function sendMessage(user){
+        setReceiver(user);
+        $('#meta').attr('value','message');
+        $('#modalContactForm').modal('show');
+
+    }
+
+    function provideTracking(user,id){
+        setReceiver(user);
+        $('#form21').attr('value', 'Tracking #');
+        $('#trackingfield').toggle();
+        $('#meta').attr('value', 'tracking');
+        $('#listing').attr('value', id);
+        $('#modalContactForm').modal('show');
+    }
+
+    function receive(user,id){
+        setReceiver(user);
+        $('#meta').attr('value', 'receive');
+        $('#form8').attr('placeholder', 'Review');
+        $('#listing').attr('value', id);
+        $('#stardiv').toggle();
+        $('#form21').attr('value','New Review!');
+        $('#modalContactForm').modal('show');
+
+    }
+
+    function star(stars){
+        $('#starcount').text(' srats' + ' ' + stars + ' ');
+        $('#stars').attr('value', stars);
+    }
+</script>
+
+{{else}}
+    <div class="alert alert-danger">
+        Please check your email for the link to confirm your account <a onclick="location.href='/resend_confirmation'">Resend?</a>
+    </div>
+{{/if}}

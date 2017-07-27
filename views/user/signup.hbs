@@ -1,0 +1,49 @@
+<div class="row">
+	<div style="margin: auto; margin-top: 5em" class="card col-xs-8 col-sm-8 col-md-8">
+    <div class="card-block">
+
+        <!--Header-->
+        <div class="form-header  blue">
+            <h3><i class="fa fa-lock"></i> Sign Up:</h3>
+        </div>
+
+	<div>
+		{{#if hasErrors}}
+			<div class="alert alert-danger">
+				{{# each messages }}
+					<p>{{this}}</p>
+				{{/each}}
+			</div>
+		{{/if}}
+		<form action="/signup" method="post">
+			<div class="form-group">
+				<label for="firstname">First Name</label>
+				<input type="text" id="firstname" name="firstname" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="username">Last Name</label>
+				<input type="text" id="lastname" name="lastname" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" class="form-control">
+			</div>
+            <div class="form-group">
+                <label for="username">Paypal Email</label>
+                <input type="text" id="paypal" name="paypal" class="form-control">
+            </div>
+			<div class="form-group">
+				<label for="email">E-mail</label>
+				<input type="text" id="email" name="email" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" class="form-control">
+			</div>
+			<input type="hidden" name="_csrf" value="{{ csrfToken }}">
+			<button class="btn btn-primary" type="submit">Sign Up</button>
+		</form>
+	</div>
+</div>
+</div>
+</div>

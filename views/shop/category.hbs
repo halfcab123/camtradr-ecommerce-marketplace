@@ -1,0 +1,59 @@
+{{>sortfilterlistings}}
+
+<link href="/css/product_grid.css" rel="stylesheet">
+<!--<link href="/css/jquery.preloader.css" rel="stylesheet">-->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+<script src="https://imagesloaded.desandro.com/imagesloaded.pkgd.js"></script>
+<!--<script src="/js/jquery.preloader.min.js"></script>-->
+
+<div>
+    <!--<div id="preloader">
+        <div id="preloader-inner"></div>
+    </div>-->
+<div style="margin-left: auto; margin-right: auto" class="col-md-8" id="container">
+    <div id="grid" class="grid">
+        <div class="grid-sizer"></div>
+{{#each listings}}
+    {{#unless status.sold}}
+    <ul class="grid-item list-group" data-price="{{price}}">
+        <li class="list-group-item">
+            <img src="{{listing_image_url}}">
+            <h4><a style="position: absolute; z-index: 700; top: 0; right: 0" class="badge badge-success">${{price}}.00</a></h4>
+        </li>
+        <li class="list-group-item">
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object img-rounded" src="{{profpic_url}}" style="width: 30px; height: 30px;" />
+                </div>
+                <div class="media-body">
+                    <h5 id="title" class="media-heading">{{title}}</h5>
+                    <small>Posted: {{{formatDate listing_date}}}</small>
+                </div>
+            </div>
+        </li>
+        <a href="/product_detail/{{_id}}" class="btn btn-primary btn-xs">more info</a>
+        <div style="display: none" id="description">{{description}}</div>
+        <div style="display: none" data-date="{{{dateToMs listing_date}}}"></div>
+    </ul>
+    {{/unless}}
+{{/each}}
+    </div>
+</div>
+</div>
+
+<script>
+    var products = $('.grid-item');
+
+    var $grid = $('.grid').imagesLoaded( function() {
+        $grid.masonry({
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            columnWidth: '.grid-sizer',
+            horizontalOrder: true,
+            gutter: 10
+        });
+    });
+
+</script>
+
+<script src="/js/custom-scripts/livesearch.js"></script>

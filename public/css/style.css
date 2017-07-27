@@ -1,0 +1,41 @@
+#hero {
+	margin-top: 1em;
+}
+
+#hero-logo {
+	max-height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+}
+
+.jumbotron {
+	margin-bottom: 0;
+}
+
+.give-margin {
+	margin-top:15px !important;
+	margin-right:15px !important;
+}
+
+.white-color {
+	color: white;
+	display: inline-block;
+}
+
+.category-cards {
+	margin: auto;
+}
+
+.navbar-brand { 
+    max-height: 40px;
+    max-width: 30%; 
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0; 
+}
+
+.card {
+	margin-right: 1em;
+	margin-left: 1em;
+}

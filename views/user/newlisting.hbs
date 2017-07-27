@@ -1,0 +1,82 @@
+{{#if confirmed}}
+
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=14dez2jw8y33he5g9q79hvmboeph00xypuj8agkamv3csjcm"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
+
+<div class="row">
+	<div style="margin: auto; margin-top: 5em" class="card col-xs-8 col-sm-8 col-md-8">
+    <div class="card-block">
+
+        <!--Header-->
+        <div class="form-header  blue">
+            <h3><i class="fa fa-lock"></i> New Listing:</h3>
+        </div>
+
+	<div>
+		{{#if messages.error}}
+			<div class="alert alert-danger">
+				{{ messages.error }}
+			</div>
+		{{/if}}
+		{{#if messages.info}}
+			<div class="alert alert-info">
+				{{ messages.info }}
+			</div>
+		{{/if}}
+		{{#if messages.success}}
+			<div class="alert alert-success">
+				{{ messages.success }}
+			</div>
+		{{/if}}
+		<form action="" method="post">
+			<div class="form-group">
+				<label for="title"><strong>Title: </strong></label>
+				<input style="display: inline-block !important" class="col-md-5 col-xs-12 col-sm-4" type="text" id="title" name="title" class="form-control" maxlength="30">
+
+				<label for="category"><strong>Category: </strong></label>
+				<select style="display: inline-block !important" class="col-md-5 col-xs-12 col-sm-4 form-control mdb-select colorful-select dropdown-primary" id="category" name="category" required>
+				    <option value="camera">DSLR/Mirrorless</option>
+				    <option value="video">Video camera</option>
+				    <option value="lenses">Lenses</option>
+				    <option value="drones">Drones</option>
+				    <option value="phone">Phone accessories</option>
+				    <option value="acc">Camera accessories</option>
+				    <option value="lighting">Studio lighting</option>
+				</select>
+				<label for="condition"><strong>Condition: </strong></label>
+				<select style="display: inline-block !important" class="col-md-5 col-xs-12 col-sm-4 form-control mdb-select colorful-select dropdown-primary" id="condition" name="condition" required>
+				    <option value="1">1 - Parts Only</option>
+				    <option value="2">2 - Damaged</option>
+				    <option value="3">3 - Not working</option>
+				    <option value="4">4 - Cosmetic Poor</option>
+				    <option value="5">5- Cosmetic Fair</option>
+				    <option value="6">6 - Cosmetic Few scuffs</option>
+				    <option value="7">7 - Cosmetic Average</option>
+				    <option value="8">8 - Cosmetic Good</option>
+				    <option value="9">9 - Cosmetic Pristine</option>
+				    <option value="10">10 - New in Box</option>
+				</select>
+				<label for="price"><strong>Price: $</strong></label>
+				<input style="display: inline-block !important" class="col-md-5 col-xs-12 col-sm-4" type="number" id="price" name="price" class="form-control" step="0.01" required max="100000" min="5">
+                <br />
+                <label for="description"><strong>Description: </strong></label>
+				<br />
+                <textarea style="display: inline-block !important" class="col-md-9 col-xs-12 col-sm-8" type="text" rows="10" id="description" name="description" class="form-control"></textarea>
+				<br /><br />
+               <!-- <label for="imageurl"><strong>Image URL: </strong></label>
+				<input style="display: inline-block !important" class="col-md-6 col-xs-12 col-sm-8" type="text" id="imageurl" name="imageurl" class="form-control" required>-->
+			</div>
+			<input type="hidden" name="_csrf" value="{{ csrfToken }}">
+            <input id="user_rep" type="hidden" name="user_rep" value="{{ user_rep }}">
+			<button class="btn btn-primary" type="submit">Submit Listing</button>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+
+{{else}}
+    <div class="alert alert-danger">
+    Please check your email for the link to confirm your account <a onclick="location.href='/resend_confirmation'">Resend?</a>
+    </div>
+{{/if}}

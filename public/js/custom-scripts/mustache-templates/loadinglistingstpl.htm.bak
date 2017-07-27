@@ -1,0 +1,7 @@
+<script id="loadinglistingstpl" type="text/x-handlebars">
+    <div id="progressbar" style="height: 500px">
+        <div style="margin-right: auto; margin-left: auto; margin-top: 10%" class="col-md-8 progress primary-color-dark">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+</script>

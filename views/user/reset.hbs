@@ -1,0 +1,50 @@
+<div class="row">
+	<div style="margin: auto; margin-top: 5em" class="card col-xs-8 col-sm-8 col-md-8">
+    <div class="card-block">
+
+    {{#if messages.error}}
+		<div class="alert alert-danger">
+			{{ messages.error }}
+		</div>
+	{{/if}}
+	{{#if messages.info}}
+		<div class="alert alert-info">
+			{{ messages.info }}
+		</div>
+	{{/if}}
+	{{#if messages.success}}
+		<div class="alert alert-success">
+			{{ messages.success }}
+		</div>
+	{{/if}}
+
+        <!--Header-->
+        <div class="form-header  blue">
+            <h3></i>Reset Password</h3>
+        </div>
+
+    <form method="POST" action="">
+      <div>
+        New Password
+      </div>
+      <div>
+        <input type="password" name="password">
+      </div>
+      
+      <div>
+        Confirm Password
+      </div>
+      <div>
+        <input type="password" name="password">
+      </div>
+      
+      <div>
+      	<input type="hidden" name="password" value="{{ password }}">
+      	<input type="hidden" name="username" value="{{ username }}">
+      	<input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        <button class="btn btn-primary" type="submit">Reset</button>
+      </div>
+    </form>
+</div>
+</div>
+</div>

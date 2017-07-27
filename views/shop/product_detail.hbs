@@ -1,0 +1,55 @@
+<div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+    <div class="flex-row">
+        <h1><span class="badge badge-primary">{{title}} <span class="badge badge-success"> ${{price}} </span> <span class="badge badge-default"> Condition: {{condition}}</span></h1>
+        <img style="float: right" src="{{profpic_url}}">
+        <div style="min-height: 10em; margin-top: 1em" class="card">
+            {{#if description}}
+                <div style="margin: 1em 1em 1em 1em">{{{description}}}</div>
+            {{else}}
+                No Description
+            {{/if}}
+        </div>
+
+        {{#if images}}
+        <link href="/css/product_detail_grid.css" rel="stylesheet">
+        <!--<link href="/css/jquery.preloader.css" rel="stylesheet">-->
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <script src="https://imagesloaded.desandro.com/imagesloaded.pkgd.js"></script>
+        <!--<script src="/js/jquery.preloader.min.js"></script>-->
+
+
+            <!--<div id="preloader">
+                <div id="preloader-inner"></div>
+            </div>-->
+            <div style="margin-top: 1em" class="card" id="container">
+                <div id="grid" class="grid">
+                    <div class="grid-sizer"></div>
+                    {{#each images}}
+                        <ul class="grid-item list-group">
+                            <li class="list-group-item">
+                                <img src="{{this}}">
+                            </li>
+                        </ul>
+                    {{/each}}
+                </div>
+            </div>
+
+            <script>
+                var $grid = $('.grid').imagesLoaded( function() {
+                    $grid.masonry({
+                        itemSelector: '.grid-item',
+                        percentPosition: true,
+                        columnWidth: '.grid-sizer',
+                        horizontalOrder: true,
+                        gutter: 10
+                    });
+                });
+            </script>
+
+        {{/if}}
+        <!--<button style="float: right" class="btn btn-lg btn-outline-default">Offer</button>-->
+      <a href="/buynow/{{_id}}" style="float: right" class="btn btn-lg btn-success">Buy now with  <i class="fa fa-paypal" aria-hidden="true"></i></a>
+    </div>
+
+</div>
+

@@ -1,0 +1,64 @@
+<!--Navbar-->
+<nav class="navbar navbar-toggleable-md navbar-dark bg-primary">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapseEx12" aria-controls="collapseEx2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <img class="img-responsive navbar-brand" src="/img/camtradr_logo_only.png" alt="logo"/>
+        <div class="collapse navbar-collapse" id="collapseEx12">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item dropdown btn-group">
+                    <a id="buymenu" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria>Buy</a>
+                    <div class="dropdown-menu dropdown" aria-labelledby="buymenu">
+                        <a class="dropdown-item" href="/cat/camera">Cameras</a>
+                        <a class="dropdown-item" href="/cat/video">Video Cameras</a>
+                        <a class="dropdown-item" href="/cat/lenses">Lenses</a>
+                        <a class="dropdown-item" href="/cat/drones">Drones</a>
+                        <a class="dropdown-item" href="/cat/phone">Phone Accessories</a>
+                        <a class="dropdown-item" href="/cat/acc">Accessories</a>
+                        <a class="dropdown-item" href="/cat/lighting">Lighting</a>
+                    </div>
+                </li>
+                {{#if username}}
+                <li class="nav-item">
+                    <a href="/newlisting" class="nav-link">Sell</a>
+                </li>
+                {{/if}}
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link">Rent <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Share <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                </li> -->
+            </ul>
+
+            {{#if username}}
+
+                <button onclick="location.href='/messages'" style="margin-right:0;height:2.85em;padding:.1rem .8rem" class="btn btn-success fa fa-envelope-o" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{#if msgCount}} <div class="badge badge-warning">{{msgCount}}{{/if}}</div>
+                </button>
+
+
+
+            <div class="dropdown">
+            <button style="height:2.85em;padding:.1rem .8rem" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                {{ username }}
+            </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Account</a>
+                    <a href="/profile" class="dropdown-item">Profile</a>
+                    <a href="/logout" class="dropdown-item">Logout</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                </div>
+            </div>
+            {{else}}
+            <a class="btn btn-info btn-sm" href="/signin">Sign In</a>
+            <a class="btn btn-success btn-sm" href="/signup">Sign Up</a>
+            {{/if}}
+        </div>
+    </div>
+</nav>
+<!--/.Navbar-->

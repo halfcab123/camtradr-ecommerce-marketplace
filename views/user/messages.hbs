@@ -1,0 +1,93 @@
+
+
+    {{#if error}}
+        <div style="margin-top: 2em" class="col-md-8 alert alert-danger">
+            <p>{{error}}</p>
+        </div>
+    {{/if}}
+<div style="margin-bottom: 500px;">
+    <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalContactForm">Compose</button>
+
+    <!-- New Message -->
+
+    <!--Modal: Contact form-->
+    <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog cascading-modal" role="document">
+            <!--Content-->
+            <div class="modal-content">
+
+                <!--Header-->
+                <div class="modal-header light-blue darken-3 white-text">
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="title"><i class="fa fa-pencil"></i> Contact form</h4>
+                    <!--Body-->
+                    <form action="/message" method="POST" class="modal-body mb-0">
+                        <div class="md-form form-sm">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" name="username" id="form19" value="" class="form-control">
+                        </div>
+                        <div class="md-form form-sm">
+                            <i class="fa fa-tag prefix"></i>
+                            <input type="text" name="subject" id="form21" placeholder="subject" class="form-control">
+                        </div>
+                        <div class="md-form form-sm">
+                            <i class="fa fa-pencil prefix"></i>
+                            <textarea type="text" name="message" id="form8" placeholder="message" class="md-textarea mb-0"></textarea>
+                        </div>
+                        <div class="text-center mt-1-half">
+                            <input type="hidden" id="meta" name="meta" value="message">
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                            <button type="submit" class="btn btn-info mb-2">Send <i class="fa fa-send ml-1"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+    </div>
+    <!--Modal: Contact form-->
+
+    <div style="margin-top: 2em; float: left;" class="col-md-6 card card-block">
+        <div class="flex-row">
+            <h2>Messages</h2>
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Subject</th>
+                    <th>From</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each msgs}}
+                        <tr{{#unless new}} style="background-color: darkgray"{{/unless}}>
+                            <td>{{{formatDate date}}}</td>
+                            <td>{{subject}}</td>
+                            <td>{{from}}</td>
+                            <td><a href="/delete_message/{{_id}}">delete</a><a href="reply_message/{{from}}/{{_id}}">reply</a><a href="reply_message/{{_id}}"></a><button onclick='displayMessage("{{message}}")'>read</button></td>
+                            <input id="message" type="hidden" name="_csrf" value="{{csrfToken}}">
+                        </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div style="margin-top: 2em; float: left;" class="col-md-5 card card-block">
+        <div class="flex-row">
+            <h2>Message</h2>
+            <hr />
+            <p id="msg_panel"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayMessage(msg){
+        $('#msg_panel').text(msg);
+    }
+</script>

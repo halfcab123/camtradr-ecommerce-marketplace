@@ -1,0 +1,29 @@
+<div class="row">
+	<div style="margin: auto; margin-top: 5em" class="card col-xs-8 col-sm-8 col-md-8">
+    <div class="card-block">
+
+	{{#if messages.error}}
+		<div class="alert alert-danger">
+			{{ messages.error }}
+		</div>
+	{{/if}}
+	{{#if messages.info}}
+		<div class="alert alert-info">
+			{{ messages.info }}
+		</div>
+	{{/if}}
+	{{#if messages.success}}
+		<div class="alert alert-success">
+			{{ messages.success }}
+		</div>
+	{{/if}}
+
+	<h1>Password Reset Request</h1>
+    <form method="POST" action="/forgot">
+      <input type="text" name="email" value="" autofocus>
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="submit" value="forgot password">
+    </form>
+</div>
+</div>
+</div>

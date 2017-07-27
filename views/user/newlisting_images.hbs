@@ -1,0 +1,55 @@
+<div class="row">
+    {{#if error}}
+        <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 alert alert-danger">
+                <p>{{error}}</p>
+        </div>
+    {{/if}}
+    <div style="margin: auto; margin-top: 2em" class="card col-xs-8 col-sm-8 col-md-8">
+        <div class="card-block">
+
+            <!--Header-->
+            <div class="form-header  blue">
+                <h3><i class="fa fa-lock"></i> Upload Images of item:</h3>
+            </div>
+
+            <div>
+
+
+
+                        <button data-toggle="modal" data-target="#modalwindow_listingimages">Upload Images</button>
+
+                        <!-- UploadImageForm in modal -->
+                        <div class="modal fade" id="modalwindow_listingimages" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <!--Content-->
+                                <div class="modal-content">
+                                    <!--Header-->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title w-100" id="myModalLabel">Upload Images of item</h4>
+                                    </div>
+                                    <!--Body-->
+                                    <div class="modal-body">
+                                        <form enctype="multipart/form-data" action="/uploadProductPics?_csrf={{csrfToken}}" method="POST">
+                                            <input type="hidden" name="listingid" value="{{_id}}">
+                                            <input class="btn btn-indigo" type="file" name="prodPhotos" multiple/>
+                                            <input class="btn btn-primary" type="submit" value="Upload Images" name="submit">
+                                            <input type='text' id='random' name='random' readonly="true"><br>
+
+                                            <!-- Need progress bar -->
+                                        </form>
+                                    </div>
+                                    <!--Footer-->
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                                <!--/.uploadImage_form-->
+                            </div>
+                        </div>
+            </div>      <!-- Modal -->
+
+        </div>
+    </div>
+</div>

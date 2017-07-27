@@ -1,0 +1,40 @@
+<div id="inbox">
+
+    {{#if error}}
+        <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 alert alert-danger">
+            <p>{{error}}</p>
+        </div>
+    {{/if}}
+
+    <div style="margin-top: 2em; margin-left: auto; margin-right: auto" class="col-md-8 card card-block">
+        <div class="flex-row">
+            <h2>My Messages</h2>
+            <hr />
+            {{#each msgs}}
+                <table class="table" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Subject</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each msgs}}
+                        <tr>
+                            <td>{{title}}</td>
+                            <td>${{price}}.00</td>
+                            <td>{{{formatDate listing_date}}}</td>
+                            <td>{{#if status.expired}}Expired{{else}}{{#if status.sold}}SOLD{{else}}Active{{/if}}{{/if}}</td>
+                            <td>{{#if status.shipped.shipped}}Shipped{{else}}<a style="margin-top: 0; margin-bottom:0" href="#">Provide Tracking</a>{{/if}}</td>
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{/each}}
+        </div>
+    </div>
+
+</div>
